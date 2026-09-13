@@ -1,0 +1,62 @@
+name: youtubeseerr
+
+x-common: &common
+  image: youtubeseerr:local
+  build:
+    context: .
+    args:
+      YTDLP_VERSION: ${YTDLP_VERSION:-2026.08.19}
+  restart: unless-stopped
+  environment:
+    TZ: ${TZ:-UTC}
+    PUID: ${PUID:-1000}
+    PGID: ${PGID:-1000}
+    CONFIG_DIR: /config
+    DOWNLOAD_DIR: /downloads
+    MEDIA_DIR: /media/youtube
+    COOKIE_SECURE: ${COOKIE_SECURE:-false}
+    APP_ORIGIN: ${APP_ORIGIN:-}
+    TRUST_PROXY: ${TRUST_PROXY:-0}
+    YOUTUBE_API_KEY: ${YOUTUBE_API_KEY:-}
+    JELLYFIN_API_KEY: ${JELLYFIN_API_KEY:-}
+    JELLYFIN_URL: ${JELLYFIN_URL:-http://host.docker.internal:8096}
+    YTDLP_COOKIES_FILE: ${YTDLP_COOKIES_FILE:-}
+  volumes:
+    - ${CONFIG_PATH:-./config}:/config
+    - ${DOWNLOAD_PATH:-./downloads}:/downloads
+    - ${MEDIA_PATH:-./media/youtube}:/media/youtube
+  extra_hosts:
+    - 'host.docker.internal:host-gateway'
+  security_opt:
+    - no-new-privileges:true
+  stop_grace_period: 45s
+
+services:
+  youtubeseerr:
+    <<: *common
+    ports:
+      - '${BIND_ADDRESS:-0.0.0.0}:${PORT:-5056}:5056'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:5056/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+  worker:
+    <<: *common
+    command: ['node', 'dist/server/worker-entry.js']
+    depends_on:
+      youtubeseerr:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'node', 'dist/server/worker-health.js']
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+config/
+downloads/
+media/
+test-results/
+*.log
+.tools/

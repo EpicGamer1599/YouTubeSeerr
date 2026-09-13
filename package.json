@@ -1,0 +1,49 @@
+{
+  "name": "youtubeseerr",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "\u003e=22.15.0"
+  },
+  "scripts": {
+    "dev": "concurrently -k \"node --env-file-if-exists=.env --import tsx --watch server/index.ts\" \"vite --host 127.0.0.1\" \"node --env-file-if-exists=.env --import tsx --watch server/worker-entry.ts\"",
+    "build": "tsc -p tsconfig.server.json \u0026\u0026 tsc -p tsconfig.json \u0026\u0026 vite build",
+    "start": "node --env-file-if-exists=.env dist/server/index.js",
+    "worker": "node --env-file-if-exists=.env dist/server/worker-entry.js",
+    "test": "tsx --test --test-concurrency=1 tests/*.test.ts",
+    "test:live": "node --env-file-if-exists=.env --import tsx --test tests/live.e2e.ts",
+    "check": "npm run build \u0026\u0026 npm test",
+    "test:ui": "npm run build \u0026\u0026 playwright test",
+    "backup": "node --env-file-if-exists=.env scripts/backup.mjs",
+    "format": "prettier --write \"server/**/*.ts\" \"src/**/*.{ts,tsx,css}\" \"tests/**/*.ts\" \"scripts/*.mjs\" \"*.json\" \"*.ts\" \"*.yml\" \"*.md\"",
+    "format:check": "prettier --check \"server/**/*.ts\" \"src/**/*.{ts,tsx,css}\" \"tests/**/*.ts\" \"scripts/*.mjs\" \"*.json\" \"*.ts\" \"*.yml\" \"*.md\""
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.17.2",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.9",
+    "@types/supertest": "^6.0.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^9.2.0",
+    "ffmpeg-static": "^5.3.0",
+    "prettier": "^3.9.6",
+    "supertest": "^7.1.4",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2",
+    "vite": "^6.3.5"
+  }
+}
