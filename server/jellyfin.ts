@@ -23,7 +23,7 @@ export async function jellyfin(
         Authorization:
           'MediaBrowser Client="YouTubeSeerr", Device="Server", DeviceId="' +
           jellyfinDeviceId +
-          '", Version="1.0.0"' +
+          '", Version="1.0.0beta"' +
           (options.token ? ', Token="' + options.token.replace(/["\\\r\n]/g, '') + '"' : ''),
       },
       body: options.body === undefined ? undefined : JSON.stringify(options.body),

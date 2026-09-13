@@ -432,7 +432,7 @@ app.use('/api', () => {
 const clientDir = resolve('dist/client');
 if (existsSync(clientDir)) {
   app.use(express.static(clientDir, { index: false }));
-  app.get('/{*path}', (_req, res) => res.sendFile(resolve(clientDir, 'index.html')));
+  app.get('/{*path}', (_req, res) => res.sendFile('index.html', { root: clientDir }));
 }
 app.use((error: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   if (error instanceof ZodError)

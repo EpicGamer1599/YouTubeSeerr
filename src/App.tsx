@@ -225,7 +225,7 @@ export default function App() {
             <span>Signed in with Jellyfin</span>
           </div>
           <span className="version">
-            YouTubeSeerr <span>v1.0.0</span>
+            YouTubeSeerr <span>v1.0.0beta</span>
           </span>
         </div>
       </Navigation>

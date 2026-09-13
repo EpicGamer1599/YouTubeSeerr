@@ -1,5 +1,7 @@
 # YouTubeSeerr
 
+**Release: 1.0.0beta.** Download and extract **YouTubeSeerr-1.0.0beta.zip**, then follow [START-HERE.md](START-HERE.md). The archive includes source code, the compiled application, Docker files, and **compile.bat** / **compile.sh**. See [RELEASE-NOTES.md](RELEASE-NOTES.md) for release details.
+
 A self-hosted YouTube request manager for Jellyfin. Sign in with your existing Jellyfin account, find videos and creators, request content, and let an administrator approve it for your library.
 
 Independently implemented, with a media-first interface inspired by applications such as Jellyseerr. No Jellyseerr source code or assets are included.
